@@ -1,0 +1,8 @@
+<div class="recipe-card" [attr.data-category]="category">
+<h2>{{ recipeName }}</h2>
+<p>{{ category }}</p>
+<p>זמן הכנה: {{ preparationTime }} דקות</p>
+<p>רמת קושי: {{ difficultyLevel }}</p>
+<button (click)="s.addRecipe(id)">הוסף למועדפים</button>
+</div>
+

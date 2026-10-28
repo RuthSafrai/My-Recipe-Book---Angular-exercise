@@ -1,0 +1,205 @@
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:wght@500;700&family=EB+Garamond:wght@400;500;600&display=swap");
+
+/* ===== App: old recipe-book page =====
+   Parchment page, sepia ink, double-line frames with corner flourishes.
+   Custom properties inherit into the child components. */
+
+:host {
+    direction: rtl;
+  position: relative;
+  box-sizing: border-box;
+  display: block;
+  min-height: 100vh;
+  padding: 48px var(--gutter) 64px;
+  font-family: "EB Garamond", Garamond, Georgia, serif;
+  font-size: 1.05rem;
+  color: var(--ink);
+  background:
+    var(--corner-tl) left 10px top 10px / 34px no-repeat,
+    var(--corner-tr) right 10px top 10px / 34px no-repeat,
+    var(--corner-bl) left 10px bottom 10px / 34px no-repeat,
+    var(--corner-br) right 10px bottom 10px / 34px no-repeat,
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.55), transparent 60%),
+    radial-gradient(circle at 15% 85%, rgba(150, 110, 60, 0.14), transparent 45%),
+    radial-gradient(circle at 90% 60%, rgba(150, 110, 60, 0.10), transparent 40%),
+    var(--paper);
+  border: 1px solid var(--line);
+  outline: 1px solid var(--line);
+  outline-offset: -14px;
+  box-shadow: inset 0 0 120px rgba(120, 80, 30, 0.24);
+
+  /* content column: 1000px wide, centred; the parchment itself fills the whole page */
+  --gutter: max(40px, calc((100% - 1000px) / 2));
+
+  --ink: #4a3524;
+  --ink-soft: #6f5740;
+  --line: #8c6f4e;
+  --paper: #f1e6d2;
+  --danger: #8a3b2e;
+
+  --cat-main: #8a3b2e;
+  --cat-starter: #55662b;
+  --cat-additions: #7a5a14;
+  --cat-dessert: #94425e;
+  --cat-neutral: #6f5740;
+
+  --corner-tl: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a5f3f' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round' %3E%3Cg transform='matrix(1 0 0 1 0 0)'%3E%3Cpath d='M3 22V11C3 6.5 6.5 3 11 3h11'/%3E%3Cpath d='M7 14c0-4 3-7 7-7'/%3E%3Ccircle cx='7.5' cy='7.5' r='1.2' fill='%237a5f3f'/%3E%3C/g%3E%3C/svg%3E");
+  --corner-tr: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a5f3f' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round' %3E%3Cg transform='matrix(-1 0 0 1 24 0)'%3E%3Cpath d='M3 22V11C3 6.5 6.5 3 11 3h11'/%3E%3Cpath d='M7 14c0-4 3-7 7-7'/%3E%3Ccircle cx='7.5' cy='7.5' r='1.2' fill='%237a5f3f'/%3E%3C/g%3E%3C/svg%3E");
+  --corner-bl: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a5f3f' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round' %3E%3Cg transform='matrix(1 0 0 -1 0 24)'%3E%3Cpath d='M3 22V11C3 6.5 6.5 3 11 3h11'/%3E%3Cpath d='M7 14c0-4 3-7 7-7'/%3E%3Ccircle cx='7.5' cy='7.5' r='1.2' fill='%237a5f3f'/%3E%3C/g%3E%3C/svg%3E");
+  --corner-br: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a5f3f' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round' %3E%3Cg transform='matrix(-1 0 0 -1 24 24)'%3E%3Cpath d='M3 22V11C3 6.5 6.5 3 11 3h11'/%3E%3Cpath d='M7 14c0-4 3-7 7-7'/%3E%3Ccircle cx='7.5' cy='7.5' r='1.2' fill='%237a5f3f'/%3E%3C/g%3E%3C/svg%3E");
+
+  --script: "Great Vibes", "Brush Script MT", cursive;
+  --heading: Lora, Georgia, serif;
+}
+
+/* ===== Header: chef hat, script title, flourish ===== */
+h1 {
+  margin: 0 0 26px;
+  text-align: center;
+  font-family: var(--script);
+  font-size: clamp(2.6rem, 7vw, 4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+h1::before {
+  content: "";
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 0 auto 4px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%234a3524' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' %3E%3Cpath d='M14 31c-5 0-8-3-8-7.5S9.500 16 14 16c1.500-5 5.500-8 10-8s8.500 3 10 8c4.500 0 8 3 8 7.500S39 31 34 31'/%3E%3Cpath d='M14 31v11h20V31M14 37h20M19 24v7M24 22v9M29 24v7'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+h1::after {
+  content: "\2766";
+  display: block;
+  width: min(320px, 70%);
+  margin: 8px auto 0;
+  font-family: var(--heading);
+  font-size: 1.4rem;
+  line-height: 1.2;
+  color: var(--ink-soft);
+  background:
+    linear-gradient(to right, transparent, var(--line)) left center / 42% 1px no-repeat,
+    linear-gradient(to left, transparent, var(--line)) right center / 42% 1px no-repeat;
+}
+
+/* Optional wrapper if you want h1 + counter together */
+.top-bar {
+  margin-bottom: 8px;
+}
+
+/* ===== Counter (host element of <app-recipe-counter>), top-right like the sketch ===== */
+app-recipe-counter {
+  position: absolute;
+  top: 40px;
+  right: var(--gutter);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid var(--line);
+  outline: 1px solid var(--line);
+  outline-offset: -4px;
+  border-radius: 999px;
+}
+
+app-recipe-counter::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a3524' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' %3E%3Cpath d='M7 3h10v18l-5-4-5 4z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* ===== Buttons: outlined double-line pills ===== */
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 28px;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  outline: 1px solid var(--line);
+  outline-offset: -4px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+button:hover {
+  background: rgba(74, 53, 36, 0.09);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+h1 + button,
+.top-bar + button {
+  display: flex;
+  margin: 0 auto 30px;
+}
+
+/* ===== Catalogue grid ===== */
+/* Add class="cards-grid" to the <div> that wraps the *ngFor of <app-recipe-card> */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  gap: 26px;
+}
+
+app-recipe-card,
+app-favorite-recipes {
+  display: block;
+}
+
+.empty-message {
+  margin: 0;
+  padding: 26px 20px;
+  text-align: center;
+  font-style: italic;
+  color: var(--ink-soft);
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+}
+
+/* ===== Narrow screens ===== */
+@media (max-width: 640px) {
+  :host {
+    --gutter: 22px;
+    padding: 36px var(--gutter) 44px;
+    outline-offset: -10px;
+  }
+
+  app-recipe-counter {
+    position: static;
+    display: flex;
+    width: fit-content;
+    margin: 0 auto 20px;
+  }
+
+  .cards-grid {
+    gap: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button {
+    transition: none;
+  }
+}

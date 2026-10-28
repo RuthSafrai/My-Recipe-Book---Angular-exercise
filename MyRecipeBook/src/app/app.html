@@ -1,0 +1,23 @@
+
+<h1>אתר מתכונים</h1>
+
+<button (click)="show()">מתכונים מועדפים</button>
+<div *ngIf="isShow == true">
+<app-favorite-recipes>
+  
+</app-favorite-recipes>
+</div>
+
+<div class="cards-grid" *ngIf="isShow != true">
+<app-recipe-card
+  *ngFor="let recipe of s.getAllRecipes()"
+  [id]="recipe.recipeId"
+  [recipeName]="recipe.recipeName"
+  [category]="recipe.category"
+  [preparationTime]="recipe.preparationTime"
+  [difficultyLevel]="recipe.difficultyLevel">
+  </app-recipe-card>
+</div>
+
+
+

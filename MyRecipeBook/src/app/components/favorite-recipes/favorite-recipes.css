@@ -1,0 +1,237 @@
+/* ===== Favorite recipes: a table-of-contents page =====
+   No boxes: a script title, a flourish, and a list with dotted leaders,
+   like the contents page of an old cookbook.
+   Works with the current markup (ul > li > h3 + 3 x p, clear button, count div).
+   Category colour: add [attr.data-category]="p.category" to each <li>.
+   Optional: <h2> title, <p class="empty-message">, a remove <button> inside each <li>. */
+
+:host {
+    direction: rtl;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 760px;
+    margin: 0 auto;
+    color: var(--ink, #4a3524);
+}
+
+/* visual order: title -> count -> list -> clear button */
+h2 {
+    order: -2;
+    margin: 0;
+    text-align: center;
+    font-family: var(--script, "Great Vibes", cursive);
+    font-size: clamp(2.2rem, 6vw, 3rem);
+    font-weight: 400;
+    line-height: 1.1;
+}
+
+h2::after {
+    content: "\2766";
+    display: block;
+    width: min(260px, 70%);
+    margin: 6px auto 0;
+    font-family: var(--heading, Lora, Georgia, serif);
+    font-size: 1.3rem;
+    line-height: 1.2;
+    color: var(--ink-soft, #6f5740);
+    background:
+        linear-gradient(to right, transparent, var(--line, #8c6f4e)) left center / 42% 1px no-repeat,
+        linear-gradient(to left, transparent, var(--line, #8c6f4e)) right center / 42% 1px no-repeat;
+}
+
+:host>div {
+    order: -1;
+    text-align: center;
+}
+
+:host>div>p {
+    margin: 0;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--ink-soft, #6f5740);
+}
+
+/* ===== List ===== */
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--line, #8c6f4e);
+}
+
+li {
+    --cat: var(--cat-neutral, #6f5740);
+
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 14px;
+    row-gap: 3px;
+    align-items: baseline;
+    padding: 16px 4px;
+    border-bottom: 1px solid rgba(140, 111, 78, 0.45);
+}
+
+li[data-category="main-course"] {
+    --cat: var(--cat-main, #8a3b2e);
+}
+
+li[data-category="starter"] {
+    --cat: var(--cat-starter, #55662b);
+}
+
+li[data-category="additions"] {
+    --cat: var(--cat-additions, #7a5a14);
+}
+
+li[data-category="dessert"] {
+    --cat: var(--cat-dessert, #94425e);
+}
+
+/* recipe name ........ category   (the dotted leader is drawn after the name) */
+li h3 {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin: 0;
+    font-family: var(--heading, Lora, Georgia, serif);
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+li h3::after {
+    content: "";
+    flex: 1;
+    align-self: flex-end;
+    margin-bottom: 0.3em;
+    border-bottom: 2px dotted var(--line, #8c6f4e);
+}
+
+li p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--ink-soft, #6f5740);
+}
+
+li p:first-of-type {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 1.05rem;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--cat);
+}
+
+li p:nth-of-type(2) {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+li p:nth-of-type(3) {
+    grid-column: 2;
+    grid-row: 2;
+    text-align: right;
+}
+
+/* optional per-recipe remove button */
+li button {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
+    padding: 5px 16px;
+    font-size: 0.95rem;
+}
+
+/* ===== Buttons: outlined pills; clear-all in brick red ===== */
+button {
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--ink, #4a3524);
+    background: transparent;
+    border: 1px solid var(--line, #8c6f4e);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+   
+}
+
+li button:hover {
+    background: rgba(74, 53, 36, 0.09);
+}
+
+:host>button {
+    align-self: center;
+    margin-top: 6px;
+    padding: 10px 30px;
+    color: var(--danger, #8a3b2e);
+    border-color: var(--danger, #8a3b2e);
+    outline: 1px solid var(--danger, #8a3b2e);
+    outline-offset: -4px;
+     position: center;
+
+}
+
+:host>button:hover {
+    color: #fff;
+    background: var(--danger, #8a3b2e);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+button:focus-visible {
+    outline: 2px solid var(--ink, #4a3524);
+    outline-offset: 3px;
+}
+
+/* ===== Empty state ===== */
+.empty-message {
+    margin: 0;
+    padding: 26px 16px;
+    text-align: center;
+    font-style: italic;
+    color: var(--ink-soft, #6f5740);
+    border: 1px dashed var(--line, #8c6f4e);
+    border-radius: 8px;
+}
+
+/* ===== Narrow screens: stack each entry ===== */
+@media (max-width: 560px) {
+    li {
+        grid-template-columns: 1fr;
+    }
+
+    li h3,
+    li p:first-of-type,
+    li p:nth-of-type(2),
+    li p:nth-of-type(3),
+    li button {
+        grid-column: 1;
+        grid-row: auto;
+        text-align: left;
+    }
+
+    li h3::after {
+        display: none;
+    }
+
+    li button {
+        justify-self: start;
+        margin-top: 6px;
+    }
+
+    :host>button {
+        align-self: stretch;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    button {
+        transition: none;
+    }
+}

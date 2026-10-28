@@ -1,0 +1,17 @@
+<h2>מתכונים מועדפים</h2>
+<ul>
+<li *ngFor="let p of s.getAllFavoritesRecipes()" [attr.data-category]="p.category">
+        <h3>{{ p.recipeName }}</h3>
+        <p>{{ p.category }}</p>
+        <p>זמן הכנה: {{ p.preparationTime }} דקות</p>
+        <p>רמת קושי: {{ p.difficultyLevel }}</p>
+        
+    </li>
+</ul>
+<button (click)="s.removeAllFavoritesRecipes()">נקה רשימה</button>
+<div>
+  <p>מספר מתכונים מועדפים: {{ s.favoriteRecipes.length }}</p>
+</div>
+<div *ngIf="s.favoriteRecipes.length==0">
+  <p>לא נוספו מתכונים למועדפים</p>
+</div>

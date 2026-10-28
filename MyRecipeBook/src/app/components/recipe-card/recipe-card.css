@@ -1,0 +1,165 @@
+/* ===== Recipe card: double-line frame with corner flourishes =====
+   Category colour: add [attr.data-category]="category" to the root <div>.
+   Optional: an <img> as the first child of the card is styled as a framed photo. */
+
+:host {
+  display: block;
+  direction: rtl;
+}
+
+.recipe-card {
+  --cat: var(--cat-neutral, #6f5740);
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 28px 24px 24px;
+  color: var(--ink, #4a3524);
+  background:
+    var(--corner-tl, none) left 5px top 5px / 22px no-repeat,
+    var(--corner-tr, none) right 5px top 5px / 22px no-repeat,
+    var(--corner-bl, none) left 5px bottom 5px / 22px no-repeat,
+    var(--corner-br, none) right 5px bottom 5px / 22px no-repeat,
+    rgba(255, 255, 255, 0.22);
+  border: 1px solid var(--line, #8c6f4e);
+  border-radius: 6px;
+  outline: 1px solid var(--line, #8c6f4e);
+  outline-offset: -8px;
+  box-shadow: 0 2px 8px rgba(74, 53, 36, 0.16);
+}
+
+.recipe-card[data-category="main-course"] { --cat: var(--cat-main, #8a3b2e); }
+.recipe-card[data-category="starter"]     { --cat: var(--cat-starter, #55662b); }
+.recipe-card[data-category="additions"]   { --cat: var(--cat-additions, #7a5a14); }
+.recipe-card[data-category="dessert"]     { --cat: var(--cat-dessert, #94425e); }
+
+/* ----- optional photo ----- */
+img {
+  order: -2;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  margin-bottom: 16px;
+  border: 1px solid var(--line, #8c6f4e);
+  border-radius: 14px;
+}
+
+/* ----- title ----- */
+h2 {
+  margin: 6px 0 10px;
+  font-family: var(--heading, Lora, Georgia, serif);
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+/* ----- first <p> = category: double-line pill, moved above the title ----- */
+p:first-of-type {
+  order: -1;
+  align-self: flex-start;
+  margin: 0 0 6px;
+  padding: 6px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--cat);
+  border: 1px solid var(--cat);
+  outline: 1px solid var(--cat);
+  outline-offset: -4px;
+  border-radius: 999px;
+}
+
+/* ----- details with icons ----- */
+p {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 5px 0;
+  font-size: 1.1rem;
+}
+
+p:first-of-type {
+  display: inline-flex;
+  gap: 0;
+}
+
+p:nth-of-type(2)::before,
+p:nth-of-type(3)::before {
+  content: "";
+  flex: none;
+  width: 22px;
+  height: 22px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+p:nth-of-type(2)::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a3524' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' %3E%3Ccircle cx='12' cy='13.500' r='7.500'/%3E%3Cpath d='M12 9v4.500l3 2M9.500 3h5M12 3v3'/%3E%3C/svg%3E"); }
+p:nth-of-type(3)::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a3524' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' %3E%3Cpath d='M4 20v-4M10 20v-8M16 20V8M22 20V4'/%3E%3C/svg%3E"); }
+
+p:last-of-type {
+  margin-bottom: 20px;
+}
+
+/* ----- button ----- */
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: auto;
+  padding: 11px 16px;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--ink, #4a3524);
+  background: transparent;
+  border: 1px solid var(--line, #8c6f4e);
+  outline: 1px solid var(--line, #8c6f4e);
+  outline-offset: -4px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+button::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a3524' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' %3E%3Cpath d='M12 20.500S4 15.500 4 9.500a4.500 4.500 0 0 1 8-2.800A4.500 4.500 0 0 1 20 9.500c0 6-8 11-8 11z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+button:hover {
+  background: rgba(74, 53, 36, 0.09);
+}
+
+button:hover::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238a3b2e' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' %3E%3Cpath d='M12 20.500S4 15.500 4 9.500a4.500 4.500 0 0 1 8-2.800A4.500 4.500 0 0 1 20 9.500c0 6-8 11-8 11z'/%3E%3C/svg%3E");
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--ink, #4a3524);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .recipe-card {
+    padding: 26px 20px 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button {
+    transition: none;
+  }
+}
